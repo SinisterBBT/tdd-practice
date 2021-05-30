@@ -12,6 +12,16 @@ internal class WalletTest {
     }
 
     @Test
+    fun `wallet that contains 2 CHF returns 0,5 EUR if rate 4 to 1`() {
+        Wallet(Money.franc(BigDecimal.valueOf(2))).asEuros() shouldBe Money.euro(BigDecimal("0.50"))
+    }
+
+    @Test
+    fun `wallet that contains 2 EUR returns 8 CHF if rate 1 to 4`() {
+        Wallet(Money.euro(BigDecimal.valueOf(2))).asFrancs() shouldBe Money.franc(BigDecimal.valueOf(8))
+    }
+
+    @Test
     fun `wallet that contains 2 CHF returns 1 USD if rate 2 to 1`() {
         Wallet(Money.franc(BigDecimal.valueOf(2))).asDollars() shouldBe Money.dollar(BigDecimal.valueOf(1.0))
     }
@@ -23,12 +33,14 @@ internal class WalletTest {
 
     @Test
     fun `wallet that contains 2 CHF and 1 USD returns 2 USD if rate 2 to 1`() {
-        Wallet(Money.franc(BigDecimal.valueOf(2)), Money.dollar(BigDecimal.valueOf(1))).asDollars() shouldBe Money.dollar(BigDecimal.valueOf(2.0))
+        Wallet(Money.franc(BigDecimal.valueOf(2)),
+            Money.dollar(BigDecimal.valueOf(1))).asDollars() shouldBe Money.dollar(BigDecimal.valueOf(2.0))
     }
 
     @Test
     fun `wallet that contains 2 EUR and 1 USD returns 5 USD if rate 1 to 2`() {
-        Wallet(Money.euro(BigDecimal.valueOf(2)), Money.dollar(BigDecimal.valueOf(1))).asDollars() shouldBe Money.dollar(BigDecimal.valueOf(5))
+        Wallet(Money.euro(BigDecimal.valueOf(2)),
+            Money.dollar(BigDecimal.valueOf(1))).asDollars() shouldBe Money.dollar(BigDecimal.valueOf(5))
     }
 
     @Test
@@ -43,6 +55,20 @@ internal class WalletTest {
         Wallet(Money.franc(BigDecimal.valueOf(2)),
             Money.dollar(BigDecimal.valueOf(2)),
             Money.euro(BigDecimal.valueOf(1.5))).asDollars() shouldBe Money.dollar(BigDecimal.valueOf(6.0))
+    }
+
+    @Test
+    fun `wallet that contains 2 CHF and 2 USD and 1,5 EUR returns 12 CHF for rate CHF to USD 1 to 2 and EUR to USD 2 to 1`() {
+        Wallet(Money.franc(BigDecimal.valueOf(2)),
+            Money.dollar(BigDecimal.valueOf(2)),
+            Money.euro(BigDecimal.valueOf(1.5))).asFrancs() shouldBe Money.franc(BigDecimal.valueOf(12.0))
+    }
+
+    @Test
+    fun `wallet that contains 2 CHF and 2 USD and 1,5 EUR returns 3 EUR for rate CHF to USD 1 to 2 and EUR to USD 2 to 1`() {
+        Wallet(Money.franc(BigDecimal.valueOf(2)),
+            Money.dollar(BigDecimal.valueOf(2)),
+            Money.euro(BigDecimal.valueOf(1.5))).asEuros() shouldBe Money.euro(BigDecimal("3.00"))
     }
 
     @Test

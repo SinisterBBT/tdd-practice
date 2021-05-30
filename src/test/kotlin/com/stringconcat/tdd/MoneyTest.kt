@@ -31,7 +31,8 @@ internal class MoneyTest {
 
     @Test
     fun `5 USD + 5 USD is 10 USD`() {
-        Money.dollar(BigDecimal.valueOf(5)) + Money.dollar(BigDecimal.valueOf(5)) shouldBe Wallet(Money.dollar(BigDecimal.valueOf(10)))
+        Money.dollar(BigDecimal.valueOf(5)) +
+                Money.dollar(BigDecimal.valueOf(5)) shouldBe Wallet(Money.dollar(BigDecimal.valueOf(10)))
     }
 
     //CHF
@@ -58,7 +59,8 @@ internal class MoneyTest {
 
     @Test
     fun `5 CHF + 5 CHF is 10 CHF`() {
-        Money.franc(BigDecimal.valueOf(5)) + Money.franc(BigDecimal.valueOf(5)) shouldBe Wallet(Money.franc(BigDecimal.valueOf(10)))
+        Money.franc(BigDecimal.valueOf(5)) +
+                Money.franc(BigDecimal.valueOf(5)) shouldBe Wallet(Money.franc(BigDecimal.valueOf(10)))
     }
 
     //EUR
@@ -85,7 +87,8 @@ internal class MoneyTest {
 
     @Test
     fun `5 EUR + 5 EUR is 10 EUR`() {
-        Money.euro(BigDecimal.valueOf(5)) + Money.euro(BigDecimal.valueOf(5)) shouldBe Wallet(Money.euro(BigDecimal.valueOf(10)))
+        Money.euro(BigDecimal.valueOf(5)) +
+                Money.euro(BigDecimal.valueOf(5)) shouldBe Wallet(Money.euro(BigDecimal.valueOf(10)))
     }
 
     //Combinations
