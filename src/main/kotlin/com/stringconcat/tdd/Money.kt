@@ -1,22 +1,28 @@
 package com.stringconcat.tdd
 
+import java.math.BigDecimal
+
 open class Money(
-    val amount: Int,
-    val currency: Currency
+    val amount: BigDecimal,
+    val currency: Currency,
+    val rates: Map<Currency, BigDecimal>
 ) {
 
-    private val rate: Int = 2
 
     companion object {
-        fun dollar(amount: Int) = Money(amount, Currency.USD)
-        fun franc(amount: Int) = Money(amount, Currency.CHF)
+        fun dollar(amount: BigDecimal) = Money(amount, Currency.USD,
+            mapOf(Currency.USD to BigDecimal.valueOf(1), Currency.CHF to BigDecimal.valueOf(2), Currency.EUR to BigDecimal(0.5)))
+        fun franc(amount: BigDecimal) = Money(amount, Currency.CHF,
+            mapOf(Currency.USD to BigDecimal.valueOf(0.5), Currency.CHF to BigDecimal.valueOf(1), Currency.EUR to BigDecimal(0.25)))
+        fun euro(amount: BigDecimal) = Money(amount, Currency.EUR,
+            mapOf(Currency.CHF to BigDecimal.valueOf(4), Currency.USD to BigDecimal(2), Currency.EUR to BigDecimal.valueOf(1)))
     }
 
     operator fun plus(other: Money): Wallet {
         return if (this.currency != other.currency) {
             Wallet(this, other)
         } else {
-            Wallet(Money(this.amount + other.amount, this.currency))
+            Wallet(Money(this.amount + other.amount, this.currency, this.rates))
         }
     }
 
@@ -26,7 +32,7 @@ open class Money(
     }
 
     operator fun times(multiplier: Int): Money {
-        return Money(amount * multiplier, currency)
+        return Money(amount * BigDecimal.valueOf(multiplier.toLong()), currency, this.rates)
     }
 
     override fun toString(): String {
@@ -34,6 +40,6 @@ open class Money(
     }
 
     enum class Currency {
-        USD, CHF
+        USD, CHF, EUR
     }
 }
