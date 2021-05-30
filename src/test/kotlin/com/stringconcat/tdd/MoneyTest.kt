@@ -3,67 +3,120 @@ package com.stringconcat.tdd
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
+import java.math.BigDecimal
 
 internal class MoneyTest {
 
+    //USD
+
     @Test
-    fun `5 dollars is 5 dollars`() {
-        Money.dollar(5) shouldBe Money.dollar(5)
+    fun `5 USD is 5 USD`() {
+        Money.dollar(BigDecimal.valueOf(5)) shouldBe Money.dollar(BigDecimal.valueOf(5))
     }
 
     @Test
-    fun `5 dollars is NOT 2 dollars`() {
-        Money.dollar(5) shouldNotBe Money.dollar(2)
+    fun `5 USD is NOT 2 USD`() {
+        Money.dollar(BigDecimal.valueOf(5)) shouldNotBe Money.dollar(BigDecimal.valueOf(2))
     }
 
     @Test
-    fun `5 dollars * 2 is 10 dollars`() {
-        Money.dollar(5) * 2 shouldBe Money.dollar(10)
+    fun `5 USD * 2 is 10 USD`() {
+        Money.dollar(BigDecimal.valueOf(5)) * 2 shouldBe Money.dollar(BigDecimal.valueOf(10))
     }
 
     @Test
-    fun `5 dollars * 3 is 15 dollars`() {
-        Money.dollar(5) * 3 shouldBe Money.dollar(15)
+    fun `5 USD * 3 is 15 USD`() {
+        Money.dollar(BigDecimal.valueOf(5)) * 3 shouldBe Money.dollar(BigDecimal.valueOf(15))
     }
 
     @Test
-    fun `5 franc is 5 franc`() {
-        Money.franc(5) shouldBe Money.franc(5)
+    fun `5 USD + 5 USD is 10 USD`() {
+        Money.dollar(BigDecimal.valueOf(5)) +
+                Money.dollar(BigDecimal.valueOf(5)) shouldBe Wallet(Money.dollar(BigDecimal.valueOf(10)))
+    }
+
+    //CHF
+
+    @Test
+    fun `5 CHF is 5 CHF`() {
+        Money.franc(BigDecimal.valueOf(5)) shouldBe Money.franc(BigDecimal.valueOf(5))
     }
 
     @Test
-    fun `5 franc is NOT 2 franc`() {
-        Money.franc(5) shouldNotBe Money.franc(2)
+    fun `5 CHF is NOT 2 CHF`() {
+        Money.franc(BigDecimal.valueOf(5)) shouldNotBe Money.franc(BigDecimal.valueOf(2))
     }
 
     @Test
-    fun `5 franc * 2 is 10 franc`() {
-        Money.franc(5) * 2 shouldBe Money.franc(10)
+    fun `5 CHF * 2 is 10 CHF`() {
+        Money.franc(BigDecimal.valueOf(5)) * 2 shouldBe Money.franc(BigDecimal.valueOf(10))
     }
 
     @Test
-    fun `5 franc * 3 is 15 franc`() {
-        Money.franc(5) * 3 shouldBe Money.franc(15)
+    fun `5 CHF * 3 is 15 CHF`() {
+        Money.franc(BigDecimal.valueOf(5)) * 3 shouldBe Money.franc(BigDecimal.valueOf(15))
     }
 
     @Test
     fun `5 CHF + 5 CHF is 10 CHF`() {
-        Money.franc(5) + Money.franc(5) shouldBe Wallet(Money.franc(10))
+        Money.franc(BigDecimal.valueOf(5)) +
+                Money.franc(BigDecimal.valueOf(5)) shouldBe Wallet(Money.franc(BigDecimal.valueOf(10)))
+    }
+
+    //EUR
+
+    @Test
+    fun `5 EUR is 5 EUR`() {
+        Money.euro(BigDecimal.valueOf(5)) shouldBe Money.euro(BigDecimal.valueOf(5))
     }
 
     @Test
-    fun `5 dollar + 5 dollar is 10 dollars`() {
-        Money.dollar(5) + Money.dollar(5) shouldBe Wallet(Money.dollar(10))
+    fun `5 EUR is NOT 2 EUR`() {
+        Money.euro(BigDecimal.valueOf(5)) shouldNotBe Money.euro(BigDecimal.valueOf(2))
     }
 
     @Test
-    fun `5 dollars is not 5 francs`() {
-        Money.dollar(5) shouldNotBe Money.franc(5)
+    fun `5 EUR * 2 is 10 EUR`() {
+        Money.euro(BigDecimal.valueOf(5)) * 2 shouldBe Money.euro(BigDecimal.valueOf(10))
+    }
+
+    @Test
+    fun `5 EUR * 3 is 15 EUR`() {
+        Money.euro(BigDecimal.valueOf(5)) * 3 shouldBe Money.euro(BigDecimal.valueOf(15))
+    }
+
+    @Test
+    fun `5 EUR + 5 EUR is 10 EUR`() {
+        Money.euro(BigDecimal.valueOf(5)) +
+                Money.euro(BigDecimal.valueOf(5)) shouldBe Wallet(Money.euro(BigDecimal.valueOf(10)))
+    }
+
+    //Combinations
+
+    @Test
+    fun `5 USD is not 5 CHF`() {
+        Money.dollar(BigDecimal.valueOf(5)) shouldNotBe Money.franc(BigDecimal.valueOf(5))
+    }
+
+    @Test
+    fun `5 EUR is not 5 CHF`() {
+        Money.euro(BigDecimal.valueOf(5)) shouldNotBe Money.franc(BigDecimal.valueOf(5))
     }
 
     @Test
     fun `2 CHF + 4 USD is wallet that contains 2 CHF and 4 USD`() {
-        Money.franc(2) + Money.dollar(4) shouldBe Wallet(Money.franc(2), Money.dollar(4) )
+        Money.franc(BigDecimal.valueOf(2)) +
+                Money.dollar(BigDecimal.valueOf(4)) shouldBe
+                Wallet(Money.franc(BigDecimal.valueOf(2)),
+                    Money.dollar(BigDecimal.valueOf(4)) )
+    }
+
+    @Test
+    fun `2 CHF + 4 EUR is wallet that contains 2 CHF and 4 EUR`() {
+        Money.franc(BigDecimal.valueOf(2)) +
+                Money.euro(BigDecimal.valueOf(4)) shouldBe
+                Wallet(Money.franc(BigDecimal.valueOf(2)),
+                    Money.euro(BigDecimal.valueOf(4)) )
     }
 
 }

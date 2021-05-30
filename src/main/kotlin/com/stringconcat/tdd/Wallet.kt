@@ -1,6 +1,6 @@
 package com.stringconcat.tdd
 
-import kotlin.math.roundToInt
+import java.math.BigDecimal
 
 class Wallet(vararg val money: Money) {
 
@@ -14,8 +14,28 @@ class Wallet(vararg val money: Money) {
         return "Wallet(money=${money.contentToString()})"
     }
 
-    fun asDollars(rate: Double): Money {
-        return Money.dollar((money.first().amount / rate).roundToInt())
+    operator fun plus(money: Money): Money {
+        return (asDollars() + money).asDollars()
+    }
+
+    fun asDollars(): Money {
+        return Money.dollar(convertTo(Money.Currency.USD))
+    }
+
+    fun asEuros(): Money {
+        return Money.euro(convertTo(Money.Currency.EUR))
+    }
+
+    fun asFrancs(): Money {
+        return Money.franc(convertTo(Money.Currency.CHF))
+    }
+
+    private fun convertTo(currency : Money.Currency): BigDecimal {
+        var sum = BigDecimal.ZERO
+        for (moneyElem in money) {
+            sum += moneyElem.amount.multiply(moneyElem.rates[currency])
+        }
+        return sum
     }
 
 }
